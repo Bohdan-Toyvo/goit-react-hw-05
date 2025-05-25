@@ -23,15 +23,9 @@ export default function MovieCast() {
   return (
     <ul>
       {cast.map((actor) => (
-        <li
-          key={actor.id}
-                  >
+        <li key={actor.id}>
           <img
-            src={
-              actor.profile_path
-                ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`
-                : `https://via.placeholder.com/250x375?text=No+Image`
-            }
+            src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
             alt={actor.name}
             width="300"
             height="375"

@@ -48,11 +48,7 @@ export default function MovieDetailsPage() {
 
       <div style={{ display: 'flex', gap: '20px' }}>
         <img
-          src={
-            poster_path
-              ? `https://image.tmdb.org/t/p/w300${poster_path}`
-              : `https://via.placeholder.com/300x450?text=No+Image`
-          }
+          src={`https://image.tmdb.org/t/p/w300${poster_path}`}
           alt={title}
           width="300"
         />
