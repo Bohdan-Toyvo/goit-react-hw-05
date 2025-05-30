@@ -2,49 +2,64 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { searchMovies } from '../../movie-api';
 import MovieList from '../../components/MovieList/MovieList';
+import css from './MoviesPage.module.css';
+import toast from 'react-hot-toast';
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const query = searchParams.get('query') || '';
 
   useEffect(() => {
-    if (!query) return;
+    if (!query) {
+      setMovies([]);
+      return;
+    }
 
     const fetchMovies = async () => {
       try {
         const results = await searchMovies(query);
         setMovies(results);
-        setError(null);
       } catch (error) {
-        setError('Failed to fetch movies.', error);
+        console.error('Failed to fetch movies:', error);
+        toast.error('Failed to fetch movies. Please try again.');
       }
     };
 
     fetchMovies();
   }, [query]);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     const searchValue = form.elements.query.value.trim();
 
-    if (!searchValue) return;
+    if (!searchValue) {
+      toast.error('Please enter a search query.');
+      return;
+    }
 
     setSearchParams({ query: searchValue });
     form.reset();
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="query" placeholder="Search movies..." defaultValue={query} />
-        <button type="submit">Search</button>
+    <div className={css.moviesPageContainer}>
+      <form onSubmit={handleSubmit} className={css.searchForm}>
+        <input
+          type="text"
+          name="query"
+          placeholder="Search movies..."
+          defaultValue={query}
+          className={css.searchInput}
+        />
+        <button type="submit" className={css.searchButton}>
+          Search
+        </button>
       </form>
 
-      {error && <p>{error}</p>}
       {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );

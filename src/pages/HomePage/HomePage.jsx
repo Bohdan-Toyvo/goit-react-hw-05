@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getTrendingMovies } from '../../movie-api';
 import MovieList from '../../components/MovieList/MovieList';
+import css from './HomePage.module.css';
+import toast from 'react-hot-toast';
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTrending = async () => {
@@ -12,7 +13,8 @@ export default function HomePage() {
         const data = await getTrendingMovies();
         setMovies(data);
       } catch (error) {
-        setError('Failed to fetch trending movies.', error);
+        console.error('Error fetching trending movies:', error);
+        toast.error('Failed to fetch trending movies.');
       }
     };
 
@@ -20,10 +22,10 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
-      <h1>Trending Today</h1>
-      
-      <MovieList movies={movies} />
+    <div className={css.homePageContainer}>
+      <h1 className={css.trendingTitle}>Trending Today</h1>
+
+      {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );
 }

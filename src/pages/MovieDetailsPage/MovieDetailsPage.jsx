@@ -7,11 +7,12 @@ import {
   useParams,
 } from 'react-router-dom';
 import { getMovieDetails } from '../../movie-api';
+import toast from 'react-hot-toast';
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
-  const [error, setError] = useState(null);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -23,7 +24,8 @@ export default function MovieDetailsPage() {
         const data = await getMovieDetails(movieId);
         setMovie(data);
       } catch (error) {
-        setError('Failed to fetch movie details.', error);
+        console.error('Error fetching movie details:', error);
+        toast.error('Error fetching movie details. Please try again.');
       }
     };
 

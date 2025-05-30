@@ -1,0 +1,19 @@
+.appContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #1a202c;
+  color: #e2e8f0;
+
+  width: 100%;
+  box-sizing: border-box;
+}
+.loaderFallback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.5em;
+  color: #3498db;
+  font-weight: bold;
+}
